@@ -12,6 +12,7 @@
 //大小臂初始角度
 float arm1_angle=22.861f;
 float arm2_angle=90.0f;
+float arm12_angle=0.0f;
 
 //判断是否为合法范围
 uint8_t scopecal(double x, double y) { 
@@ -44,7 +45,7 @@ float arm2_anglecal(double x, double y) {
 }
 
 //大臂初始角为22.861°小臂初始角为90°
-void angle_set(double x, double y){
+void angle_setlz(double x, double y){
     if(scopecal(x,y)==1){
         //22.861°-90°
         float angle_arm1=arm1_anglecal(x,y);
@@ -69,4 +70,18 @@ void angle_set(double x, double y){
         arm1_angle=angle_arm1;
         OLED_ShowFloat(1,1,arm1_angle,3,5);
     }
+}
+
+
+void angele_setxyz(double x, double y,double z){
+    x=x+60;
+    double lenth=sqrt(x*x+y*y);
+    //电磁阀长度
+    lenth=lenth-51.0f;
+    angle_setlz(lenth-60,z);
+    double theta = atan2(y,x);
+    //预计角减去当前角
+    motor2_setangle(theta*180.0f/MY_PI-arm12_angle);
+    OLED_ShowFloat(3,1,theta*180.0f/MY_PI,3,5);
+    arm12_angle=theta*180.0f/MY_PI;
 }

@@ -121,7 +121,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     //旋转电机电机2
     if(htim->Instance == TIM8){//如果是tim8触发中断
         motor2_flag=1;
-        if(motor2_hz<=31){//48个加速度挡位
+        if(motor2_hz<=15){//48个加速度挡位
             if(motor2_accenum==0){//设置arr与ccr
                 __HAL_TIM_SET_AUTORELOAD(&htim8,arr_set[motor2_hz]-1);                  //设置arr
                 __HAL_TIM_SET_COMPARE(&htim8, TIM_CHANNEL_1,arr_set[motor2_hz]/2-1);    //设置ccr

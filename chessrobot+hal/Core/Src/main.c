@@ -113,33 +113,24 @@ int main(void)
   HAL_UART_Receive_IT(&huart2,&dataRcvd,1);
 
   tmc2209_init();
-  angle_set(170,30);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-  angle_set(170,-38);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-   angle_set(130,30);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-  angle_set(130,-38);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-   angle_set(190,30);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-  angle_set(190,-38);
-  while(motor1_flag==1||motor3_flag==1){
-    HAL_Delay(10);
-  }
-  
-  
-    
+  //motor2_setangle(90);
+  //motor2_setangle(-90);
+  OLED_ShowNum(1,1,1,1);
+
+
+  motor3_setangle(30);
+  //motor2_setangle(90);
+
+  // angele_setxyz(220,0,20);
+  // while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+  //   HAL_Delay(10);
+  // }
+  // angele_setxyz(220,0,-38);
+  // while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+  //   HAL_Delay(10);
+  // }
+
+
   
   while (1)
   {
