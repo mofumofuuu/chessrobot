@@ -35,12 +35,19 @@ uint8_t motor3_accenum=0,motor3_hz=0;
 //psc为168主频为10e6
 //从100hz到4800hz慢慢加速
 uint16_t arr_set[48]={10000,5000,3333,2500,2000,1667,1429,1250,1111,1000,909,833,769,714,667,625,588,556,526,500,476,455,435,417,400,385,370,357,345,333,323,313,303,294,286,278,270,263,256,250,244,238,233,227,222,217,213,208};
-
+void motor1_setangle(float angle);
+void motor3_setangle(float angle);
 void tmc2209_init(void) { 
     //开启电机使能引脚
     HAL_GPIO_WritePin(EN3,GPIO_PIN_SET);
     HAL_GPIO_WritePin(EN2,GPIO_PIN_SET);
     HAL_GPIO_WritePin(EN1,GPIO_PIN_SET);
+    HAL_Delay(200);
+
+    //初始化电机角度
+    motor3_setangle(-15.45);
+    motor1_setangle(57.7);
+    HAL_Delay(3000);
 }
 
 void motor1_setangle(float angle) { 

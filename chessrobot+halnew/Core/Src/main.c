@@ -28,6 +28,7 @@
 #include "tmc2209.h"
 #include "poscal.h"
 #include "airpump.h"
+#include "Serial.h"
 // #include "chess.h"
 /* USER CODE END Includes */
 
@@ -54,12 +55,19 @@ typedef struct {
   float x, y, z;
 } chess;
 
-int chessp[50][2];
-
 //中心坐标
 chess chess_center={208,0,-40};
 chess black_position={128,179,-50};
 chess white_position={128,-179,-50};
+
+//0表示放,1表示取
+extern uint8_t putflag;
+//0黑1白
+extern uint8_t color;
+extern uint8_t chess_x,chess_y;
+
+//主程序状态
+uint8_t status=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -118,46 +126,41 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  //初始化电机
   tmc2209_init();
+  //初始化气泵
   chess_init();
-  // OLED_ShowNum(1,1,1,1);
+  //初始化串口
+  Serial_Init();
   
-  motor3_setangle(-15.45);
-  motor1_setangle(57.7);
-  HAL_Delay(3000);
-
-  HAL_Delay(5000);
-
-
-  // angele_smothmove(128,179,-50,0);
-  // angele_smothmove(208,0,-40,1);
-  // angele_smothmove(128,-179,-50,0);
-  // angele_smothmove(208,0,-40,1);
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(188,20,-40,1);
-
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(188,-20,-40,1);
-
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(248,0,-40,1);
-
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(228,-40,-40,1);
-
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(248,40,-40,1);
-
-    angele_smothmove(125,181,-50,0);
-    angele_smothmove(228,60,-40,1);
-
-  
-
-
+  chess chess_temp;
   
   while (1)
   {
-    
+    if(status!=0){//串口接收数据已完成
+      chess_temp.x=chess_x;
+      chess_temp.y=chess_y;
+      chess_temp.z=-40;
+      if(putflag==0){
+        switch (color){
+          case 0://黑棋
+          //0为吸
+          angele_smothmove(black_position.x,black_position.y,black_position.z,0);
+          //1为放
+          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,1);
+          break;
+        }
+      }else{
+        switch (color){
+          case 0://黑棋
+          //0为吸
+          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,0);
+          //1为放
+          angele_smothmove(black_position.x,black_position.y,black_position.z,1);
+          break;
+        }
+      }
+    }
     /* USER CODE END WHILE */
     
     /* USER CODE BEGIN 3 */
@@ -212,17 +215,7 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-uint8_t dataRcvd;
-int temp =0;
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-  temp++;
-	if(huart==&huart2){
-    for(int i=0;i<2;i++){
-        chessp[temp][i]=dataRcvd;
-    }
-		HAL_UART_Receive_IT(&huart2,&dataRcvd,1);
-	}
-}
+
 /* USER CODE END 4 */
 
 /**

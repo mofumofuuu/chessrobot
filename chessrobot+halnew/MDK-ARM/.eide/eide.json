@@ -4,7 +4,8 @@
   "dependenceList": [],
   "srcDirs": [
     "../Core/Hardware",
-    "../Core/Posecal"
+    "../Core/Posecal",
+    "../Core/Connect"
   ],
   "virtualFolder": {
     "name": "<virtual_root>",
@@ -134,14 +135,12 @@
   },
   "targets": {
     "chessrobot+hal": {
-      "excludeList": [
-        "../Core/Posecal/chess.c"
-      ],
+      "excludeList": [],
       "toolchain": "AC5",
       "compileConfig": {
         "cpuType": "Cortex-M4",
-        "floatingPointHardware": "single",
         "archExtensions": "",
+        "floatingPointHardware": "single",
         "useCustomScatterFile": false,
         "scatterFilePath": "<YOUR_SCATTER_FILE>.sct",
         "storageLayout": {
@@ -204,7 +203,8 @@
           ".cmsis/include",
           "RTE/_chessrobot+hal",
           "../Core/Hardware",
-          "../Core/Posecal"
+          "../Core/Posecal",
+          "../Core/Connect"
         ],
         "libList": [],
         "defineList": [

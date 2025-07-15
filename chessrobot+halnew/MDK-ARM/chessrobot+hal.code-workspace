@@ -6,8 +6,7 @@
     ],
     "settings": {
         "files.associations": {
-            "tim.h": "c",
-            "gpio.h": "c"
+            "usart.h": "c"
         }
     },
     "extensions": {}
