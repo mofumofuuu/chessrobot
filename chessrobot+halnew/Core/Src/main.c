@@ -149,17 +149,32 @@ int main(void)
           //1为放
           angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,1);
           break;
+          case 1://白棋
+          //0为吸
+          angele_smothmove(white_position.x,white_position.y,white_position.z,0);
+          //1为放
+          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,1);
+          break;
         }
       }else{
         switch (color){
           case 0://黑棋
           //0为吸
-          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,0);
           //1为放
+          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,0);
           angele_smothmove(black_position.x,black_position.y,black_position.z,1);
+          break;
+          case 1://白棋
+          //0为吸
+          //1为放
+          angele_smothmove((chess_temp.x-7)*20+chess_center.x,(chess_temp.y-7)*20+chess_center.y,chess_temp.z,0);
+          angele_smothmove(white_position.x,white_position.y,white_position.z,0);
           break;
         }
       }
+      //等待串口接收数据
+      status=0;
+      Serial_Send_Hexbuffer(0x01);
     }
     /* USER CODE END WHILE */
     
