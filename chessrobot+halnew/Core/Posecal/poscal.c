@@ -130,6 +130,9 @@ void angele_smothmove(double x, double y,double z,uint8_t flag){
     }
     
     angele_setxyz(208,0,80);
+    while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+        HAL_Delay(10);
+    }
 
 }
 // void angele_smothmove(double x, double y,double z,uint8_t flag){
