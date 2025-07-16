@@ -83,28 +83,36 @@ void angele_setxyz(double x, double y,double z){
 
 //0为吸棋 1为放棋
 void angele_smothmove(double x, double y,double z,uint8_t flag){
-    if(z>=-20){//大于-20
+    //移动到对应位置并缓慢下降
+    if(z>=-20){
         angele_setxyz(x,y,z);
     }else{
-        for(int i=-20;i>=z;i=i-10){
-            if(i-z<=10){
+        for(int i=-20;i>=z;i=i-5){
+             if(i-z<=5){
                 angele_setxyz(x,y,z);
-                while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
-                    HAL_Delay(10);
+                 while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+                     HAL_Delay(10);
                 }
                 break;
-            }else{
-                angele_setxyz(x,y,i);
-                while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
-                    HAL_Delay(10);
+                }else{
+                 angele_setxyz(x,y,i);
+                 while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+                     HAL_Delay(10);
                 }
-            }
+             }
         }
-        if(flag==0){
-            chess_take();
-        }else{
-            chess_release();
-        }
+    }
+
+    //吸取棋子或放下棋子
+    if(flag==0){
+        chess_take();
+    }else{
+        chess_release();
+    }
+
+    //从对应位置缓慢升高
+    //对应位置低于-20升高再移动，高于直接移动
+    if(z<-20){
         for(int i=z;i<=-20;i=i+10){
             if(-20-i<=10){
                 angele_setxyz(x,y,-20);
@@ -119,5 +127,47 @@ void angele_smothmove(double x, double y,double z,uint8_t flag){
                 }
             }
         }
-    } 
+    }
+    
+    angele_setxyz(208,0,80);
+
 }
+// void angele_smothmove(double x, double y,double z,uint8_t flag){
+//     if(z>=-20){//大于-20 
+//         angele_setxyz(x,y,z);
+//     }else{
+//         for(int i=-20;i>=z;i=i-10){
+//             if(i-z<=10){
+//                 angele_setxyz(x,y,z);
+//                 while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+//                     HAL_Delay(10);
+//                 }
+//                 break;
+//             }else{
+//                 angele_setxyz(x,y,i);
+//                 while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+//                     HAL_Delay(10);
+//                 }
+//             }
+//         }
+// if(flag==0){
+//     chess_take();
+// }else{
+//     chess_release();
+// }
+//     for(int i=z;i<=-20;i=i+10){
+//         if(-20-i<=10){
+//             angele_setxyz(x,y,-20);
+//             while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+//                 HAL_Delay(10);
+//             }
+//             break;
+//         }else{
+//             angele_setxyz(x,y,i);
+//             while(motor1_flag==1||motor2_flag==1||motor3_flag==1){
+//                 HAL_Delay(10);
+//             }
+//         }
+//     }
+// } 
+// }
